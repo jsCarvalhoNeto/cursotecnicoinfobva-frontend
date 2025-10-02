@@ -1,3 +1,5 @@
+import { API_URL } from './api';
+
 /**
  * Serviço para gerenciamento de estudantes (usando API real)
  */
@@ -36,7 +38,7 @@ export async function createStudent(data: StudentFormData): Promise<CreateStuden
 
     // Criar estudante via API (removendo studentRegistration do payload pois será gerado automaticamente)
     const { studentRegistration, ...studentDataWithoutRegistration } = sanitizedData;
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students`, {
+    const response = await fetch(`${API_URL}/students`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +84,7 @@ export async function createStudent(data: StudentFormData): Promise<CreateStuden
  */
 export async function updateStudentPassword(userId: string, newPassword: string): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${userId}/password`, {
+    const response = await fetch(`${API_URL}/students/${userId}/password`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -102,7 +104,7 @@ export async function updateStudentPassword(userId: string, newPassword: string)
  */
 export async function hasTemporaryPassword(userId: string): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${userId}`);
+    const response = await fetch(`${API_URL}/students/${userId}`);
     if (!response.ok) return false;
     
     const student = await response.json();
@@ -121,7 +123,7 @@ export async function getStudentById(userId: string) {
   console.log(`Buscando estudante por ID (API real): ${userId}`);
   
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${userId}`);
+    const response = await fetch(`${API_URL}/students/${userId}`);
     if (!response.ok) {
       throw new Error('Student not found');
     }
@@ -139,7 +141,7 @@ export async function getAllStudents() {
   console.log("Buscando todos os estudantes (API real)...");
   
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students`);
+    const response = await fetch(`${API_URL}/students`);
     if (!response.ok) {
       throw new Error('Erro ao buscar estudantes');
     }

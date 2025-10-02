@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -90,7 +91,7 @@ export default function SubjectModal({ isOpen, onClose, subject, onSuccess }: Su
   const fetchTeachers = async () => {
     if (teachersLoaded) return; // Evita buscas repetidas
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers`);
+      const response = await fetch(`${API_URL}/teachers`);
       if (!response.ok) {
         throw new Error('Falha ao buscar professores');
       }

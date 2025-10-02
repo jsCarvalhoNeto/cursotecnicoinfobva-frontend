@@ -1,3 +1,4 @@
+import { API_URL } from './api';
 import { Student } from './studentService';
 
 export interface StudentProfile {
@@ -11,7 +12,7 @@ export interface StudentProfile {
 
 export const updateStudentProfile = async (studentId: string, profileData: Partial<StudentProfile>): Promise<Student> => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${studentId}`, {
+    const response = await fetch(`${API_URL}/students/${studentId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +35,7 @@ export const updateStudentProfile = async (studentId: string, profileData: Parti
 
 export const changeStudentPassword = async (studentId: string, newPassword: string): Promise<void> => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${studentId}/password`, {
+    const response = await fetch(`${API_URL}/students/${studentId}/password`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ export const changeStudentPassword = async (studentId: string, newPassword: stri
 
 export const getStudentProfile = async (studentId: string): Promise<Student> => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${studentId}`);
+    const response = await fetch(`${API_URL}/students/${studentId}`);
     
     if (!response.ok) {
       const errorData = await response.json();

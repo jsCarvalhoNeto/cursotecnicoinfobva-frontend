@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import {
   Dialog,
   DialogContent,
@@ -133,7 +134,7 @@ export default function ActivityGradesModal({ isOpen, onOpenChange, activityId, 
   };
 
   const handleDownloadFile = (filePath: string, fileName: string) => {
-    const baseUrl = import.meta.env.VITE_API_URL.replace('/api', '');
+    const baseUrl = API_URL.replace('/api', '');
     const fullUrl = `${baseUrl}${filePath}`;
     window.open(fullUrl, '_blank');
   };

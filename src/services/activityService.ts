@@ -1,3 +1,5 @@
+import { API_URL } from './api';
+
 export interface ActivityData {
   name: string;
   subject_id: number;
@@ -55,7 +57,7 @@ export interface StudentActivity {
 
 export async function createActivity(activityData: ActivityData) {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities`, {
+    const response = await fetch(`${API_URL}/activities`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ export async function createActivity(activityData: ActivityData) {
 
 export async function assignActivityGrade(gradeData: ActivityGradeData) {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/activity-grades`, {
+    const response = await fetch(`${API_URL}/activities/activity-grades`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +101,7 @@ export async function assignActivityGrade(gradeData: ActivityGradeData) {
 
 export async function getActivityGrades(activityId: number): Promise<ActivityGrade[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/${activityId}/grades`, {
+    const response = await fetch(`${API_URL}/activities/${activityId}/grades`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -122,7 +124,7 @@ export async function updateActivity(activityId: number, activityData: ActivityD
   try {
     // Enviar como JSON normal - o upload de arquivos será tratado diretamente no modal
     // quando houver um novo arquivo para upload
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/${activityId}`, {
+    const response = await fetch(`${API_URL}/activities/${activityId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -145,7 +147,7 @@ export async function updateActivity(activityId: number, activityData: ActivityD
 export async function updateActivityGrade(gradeId: number, grade: number) {
   try {
     console.log('Tentando atualizar nota da atividade:', { gradeId, grade });
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/activity-grades/${gradeId}`, {
+    const response = await fetch(`${API_URL}/activities/activity-grades/${gradeId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -173,7 +175,7 @@ export async function updateActivityGrade(gradeId: number, grade: number) {
 
 export async function deleteActivityGrade(gradeId: number) {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/activity-grades/${gradeId}`, {
+    const response = await fetch(`${API_URL}/activities/activity-grades/${gradeId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -194,7 +196,7 @@ export async function deleteActivityGrade(gradeId: number) {
 
 export async function deleteActivity(activityId: number) {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/${activityId}`, {
+    const response = await fetch(`${API_URL}/activities/${activityId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -215,7 +217,7 @@ export async function deleteActivity(activityId: number) {
 
 export async function getStudentActivityGrades(): Promise<ActivityGrade[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/student/grades`, {
+    const response = await fetch(`${API_URL}/activities/student/grades`, {
       method: 'GET',
       credentials: 'include',
       headers: {

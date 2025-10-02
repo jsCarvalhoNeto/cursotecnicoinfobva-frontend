@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,7 +38,7 @@ export default function TeacherFormWithSubjects({ onSuccess, teacher }: TeacherF
     const fetchSubjects = async () => {
       setSubjectsLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects`);
+        const response = await fetch(`${API_URL}/subjects`);
         if (!response.ok) {
           throw new Error('Falha ao buscar disciplinas');
         }
@@ -46,7 +47,7 @@ export default function TeacherFormWithSubjects({ onSuccess, teacher }: TeacherF
         
         // Se estiver editando um professor, carregar as disciplinas já associadas
         if (teacher) {
-          const teacherSubjectsResponse = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacher.id}/subjects`);
+          const teacherSubjectsResponse = await fetch(`${API_URL}/teachers/${teacher.id}/subjects`);
           if (teacherSubjectsResponse.ok) {
             const teacherSubjects = await teacherSubjectsResponse.json();
             const subjectIds = teacherSubjects.map((subject: { id: string }) => subject.id.toString());
@@ -75,8 +76,8 @@ export default function TeacherFormWithSubjects({ onSuccess, teacher }: TeacherF
     try {
       if (teacher) {
         // Atualização de professor existente
-        const API_URL = `${import.meta.env.VITE_API_URL}/teachers/${teacher.id}`;
-        const response = await fetch(API_URL, {
+        const API_URL_ENDPOINT = `${API_URL}/teachers/${teacher.id}`;
+        const response = await fetch(API_URL_ENDPOINT, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -103,8 +104,8 @@ export default function TeacherFormWithSubjects({ onSuccess, teacher }: TeacherF
         });
       } else {
         // Criação de novo professor
-        const API_URL = `${import.meta.env.VITE_API_URL}/teachers`;
-        const response = await fetch(API_URL, {
+        const API_URL_ENDPOINT = `${API_URL}/teachers`;
+        const response = await fetch(API_URL_ENDPOINT, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -148,7 +149,7 @@ export default function TeacherFormWithSubjects({ onSuccess, teacher }: TeacherF
 
   // Função para obter as disciplinas atuais do professor
   const getCurrentTeacherSubjects = async (teacherId: string): Promise<string[]> => {
-    const currentSubjectsResponse = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}/subjects`);
+    const currentSubjectsResponse = await fetch(`${API_URL}/teachers/${teacherId}/subjects`);
     if (currentSubjectsResponse.ok) {
       const currentSubjects = await currentSubjectsResponse.json();
       return currentSubjects.map((subject: { id: string }) => subject.id.toString());
@@ -158,7 +159,7 @@ export default function TeacherFormWithSubjects({ onSuccess, teacher }: TeacherF
 
   // Função para associar disciplina ao professor
   const associateSubjectToTeacher = async (subjectId: string, teacherId: string) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/subjects/${subjectId}`, {
+    await fetch(`${API_URL}/subjects/${subjectId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -171,7 +172,7 @@ export default function TeacherFormWithSubjects({ onSuccess, teacher }: TeacherF
 
   // Função para remover associação de disciplina com professor
   const removeSubjectAssociation = async (subjectId: string) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/subjects/${subjectId}`, {
+    await fetch(`${API_URL}/subjects/${subjectId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

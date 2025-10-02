@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,8 +24,8 @@ export default function TeacherForm({ onSuccess, teacher }: TeacherFormProps) {
     try {
       if (teacher) {
         // Atualização de professor existente
-        const API_URL = `${import.meta.env.VITE_API_URL}/teachers/${teacher.id}`;
-        const response = await fetch(API_URL, {
+        const API_URL_ENDPOINT = `${API_URL}/teachers/${teacher.id}`;
+        const response = await fetch(API_URL_ENDPOINT, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -48,8 +49,8 @@ export default function TeacherForm({ onSuccess, teacher }: TeacherFormProps) {
         });
       } else {
         // Criação de novo professor
-        const API_URL = `${import.meta.env.VITE_API_URL}/teachers`;
-        const response = await fetch(API_URL, {
+        const API_URL_ENDPOINT = `${API_URL}/teachers`;
+        const response = await fetch(API_URL_ENDPOINT, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

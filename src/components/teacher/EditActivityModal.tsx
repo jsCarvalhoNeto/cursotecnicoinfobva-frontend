@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import {
   Dialog,
   DialogContent,
@@ -166,7 +167,7 @@ export default function EditActivityModal({ isOpen, onOpenChange, activity }: Ed
         formData.append('file', file);
         formData.append('id', activity.id);
         
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/${activity.id}`, {
+      const response = await fetch(`${API_URL}/activities/${activity.id}`, {
           method: 'PUT',
           credentials: 'include',
           body: formData

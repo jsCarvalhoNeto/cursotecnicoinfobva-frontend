@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -133,7 +134,7 @@ export default function StudentGradesPerformanceTab() {
     setLoading(true);
     try {
       // Buscar todas as atividades do aluno (já inclui informações de notas e status)
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/student`, {
+      const response = await fetch(`${API_URL}/activities/student`, {
         credentials: 'include'
       });
       

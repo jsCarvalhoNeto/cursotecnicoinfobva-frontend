@@ -1,3 +1,5 @@
+import { API_URL } from './api';
+
 /**
  * Serviço para autenticação de usuários (usando API real)
  */
@@ -49,7 +51,7 @@ export interface UserProfile {
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   try {
     // Primeiro, vamos tentar autenticar com o backend
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -85,7 +87,7 @@ export async function login(credentials: LoginCredentials): Promise<LoginRespons
  */
 export async function signUp(credentials: SignUpCredentials): Promise<SignUpResponse> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+    const response = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +123,7 @@ export async function signUp(credentials: SignUpCredentials): Promise<SignUpResp
  */
 export async function logout(): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+    const response = await fetch(`${API_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include' // Inclui cookies de sessão
     });
@@ -138,7 +140,7 @@ export async function logout(): Promise<boolean> {
  */
 export async function getCurrentUser(): Promise<UserProfile | null> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+    const response = await fetch(`${API_URL}/auth/me`, {
       method: 'GET',
       credentials: 'include' // Inclui cookies de sessão
     });

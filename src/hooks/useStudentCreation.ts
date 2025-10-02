@@ -1,3 +1,5 @@
+import { API_URL } from '@/services/api';
+
 /**
  * Hook customizado para gerenciar criação de estudantes
  */
@@ -194,7 +196,7 @@ export function useStudentCreation(): UseStudentCreationReturn {
 
       // Atualizar estudante no banco de dados real (API)
       // Obter conexão e atualizar no banco de dados real
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${studentId}`, {
+      const response = await fetch(`${API_URL}/students/${studentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

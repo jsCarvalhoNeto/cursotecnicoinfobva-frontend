@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import {
   Dialog,
   DialogContent,
@@ -97,7 +98,7 @@ export default function NewActivityModal({ isOpen, onOpenChange }: NewActivityMo
         }
         formData.append('file', file);
         
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/activities`, {
+        const response = await fetch(`${API_URL}/activities`, {
           method: 'POST',
           credentials: 'include',
           body: formData
