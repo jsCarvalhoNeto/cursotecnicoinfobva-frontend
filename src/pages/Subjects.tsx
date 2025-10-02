@@ -28,7 +28,7 @@ const Subjects = () => {
 
   const fetchSubjects = async () => {
     try {
-      const response = await fetch('http://localhost:4002/api/subjects');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects`);
       if (!response.ok) {
         throw new Error('Falha ao buscar disciplinas');
       }
