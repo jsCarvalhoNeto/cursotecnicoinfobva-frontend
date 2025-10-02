@@ -1,4 +1,4 @@
-import { API_URL } from './api';
+import api from './api';
 
 /**
  * Serviço para autenticação de usuários (usando API real)
@@ -50,34 +50,20 @@ export interface UserProfile {
  */
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   try {
-    // Primeiro, vamos tentar autenticar com o backend
-    const response = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // Inclui cookies de sessão
-      body: JSON.stringify(credentials)
+    const response = await api.post('/auth/login', credentials, {
+      withCredentials: true,
     });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      return {
-        success: true,
-        user: result.user
-      };
-    } else {
-      return {
-        success: false,
-        error: result.error || 'Erro de autenticação. Por favor, verifique suas credenciais e tente novamente.'
-      };
-    }
-  } catch (error) {
+    return {
+      success: true,
+      user: response.data.user,
+    };
+  } catch (error: any) {
     console.error('Erro de conexão com o servidor de autenticação:', error);
     return {
       success: false,
-      error: 'Erro de conexão com o servidor'
+      error:
+        error.response?.data?.error ||
+        'Erro de autenticação. Por favor, verifique suas credenciais e tente novamente.',
     };
   }
 }
@@ -87,33 +73,18 @@ export async function login(credentials: LoginCredentials): Promise<LoginRespons
  */
 export async function signUp(credentials: SignUpCredentials): Promise<SignUpResponse> {
   try {
-    const response = await fetch(`${API_URL}/auth/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // Inclui cookies de sessão
-      body: JSON.stringify(credentials)
+    const response = await api.post('/auth/register', credentials, {
+      withCredentials: true,
     });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      return {
-        success: true,
-        user: result.user
-      };
-    } else {
-      return {
-        success: false,
-        error: result.error || 'Erro ao criar conta'
-      };
-    }
-  } catch (error) {
+    return {
+      success: true,
+      user: response.data.user,
+    };
+  } catch (error: any) {
     console.error('Erro de conexão com o servidor de autenticação:', error);
     return {
       success: false,
-      error: 'Erro de conexão com o servidor'
+      error: error.response?.data?.error || 'Erro ao criar conta',
     };
   }
 }
@@ -123,12 +94,10 @@ export async function signUp(credentials: SignUpCredentials): Promise<SignUpResp
  */
 export async function logout(): Promise<boolean> {
   try {
-    const response = await fetch(`${API_URL}/auth/logout`, {
-      method: 'POST',
-      credentials: 'include' // Inclui cookies de sessão
+    await api.post('/auth/logout', null, {
+      withCredentials: true,
     });
-
-    return response.ok;
+    return true;
   } catch (error) {
     console.error('Erro ao fazer logout:', error);
     return false;
@@ -140,17 +109,12 @@ export async function logout(): Promise<boolean> {
  */
 export async function getCurrentUser(): Promise<UserProfile | null> {
   try {
-    const response = await fetch(`${API_URL}/auth/me`, {
-      method: 'GET',
-      credentials: 'include' // Inclui cookies de sessão
+    const response = await api.get('/auth/me', {
+      withCredentials: true,
     });
-
-    if (response.ok) {
-      return await response.json();
-    }
-    return null;
+    return response.data;
   } catch (error) {
     console.error('Erro ao obter usuário atual:', error);
     return null;
- }
+  }
 }
