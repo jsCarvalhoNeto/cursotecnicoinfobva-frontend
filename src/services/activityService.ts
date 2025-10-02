@@ -1,4 +1,4 @@
-import { API_URL } from './api';
+import api from './api';
 
 export interface ActivityData {
   name: string;
@@ -57,20 +57,8 @@ export interface StudentActivity {
 
 export async function createActivity(activityData: ActivityData) {
   try {
-    const response = await fetch(`${API_URL}/activities`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(activityData)
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao criar atividade');
-    }
-
-    return await response.json();
+    const response = await api.post('/activities', activityData, { withCredentials: true });
+    return response.data;
   } catch (error) {
     console.error('Error creating activity:', error);
     throw new Error('Não foi possível criar a atividade.');
@@ -79,20 +67,8 @@ export async function createActivity(activityData: ActivityData) {
 
 export async function assignActivityGrade(gradeData: ActivityGradeData) {
   try {
-    const response = await fetch(`${API_URL}/activities/activity-grades`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(gradeData)
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao atribuir nota à atividade');
-    }
-
-    return await response.json();
+    const response = await api.post('/activities/activity-grades', gradeData, { withCredentials: true });
+    return response.data;
   } catch (error) {
     console.error('Error assigning activity grade:', error);
     throw new Error('Não foi possível atribuir a nota à atividade.');
@@ -101,19 +77,8 @@ export async function assignActivityGrade(gradeData: ActivityGradeData) {
 
 export async function getActivityGrades(activityId: number): Promise<ActivityGrade[]> {
   try {
-    const response = await fetch(`${API_URL}/activities/${activityId}/grades`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar notas da atividade');
-    }
-
-    return await response.json();
+    const response = await api.get(`/activities/${activityId}/grades`, { withCredentials: true });
+    return response.data;
   } catch (error) {
     console.error('Error fetching activity grades:', error);
     throw new Error('Não foi possível buscar as notas da atividade.');
@@ -122,22 +87,8 @@ export async function getActivityGrades(activityId: number): Promise<ActivityGra
 
 export async function updateActivity(activityId: number, activityData: ActivityData) {
   try {
-    // Enviar como JSON normal - o upload de arquivos será tratado diretamente no modal
-    // quando houver um novo arquivo para upload
-    const response = await fetch(`${API_URL}/activities/${activityId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(activityData)
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao atualizar atividade');
-    }
-
-    return await response.json();
+    const response = await api.put(`/activities/${activityId}`, activityData, { withCredentials: true });
+    return response.data;
   } catch (error) {
     console.error('Error updating activity:', error);
     throw new Error('Não foi possível atualizar a atividade.');
@@ -147,26 +98,9 @@ export async function updateActivity(activityId: number, activityData: ActivityD
 export async function updateActivityGrade(gradeId: number, grade: number) {
   try {
     console.log('Tentando atualizar nota da atividade:', { gradeId, grade });
-    const response = await fetch(`${API_URL}/activities/activity-grades/${gradeId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ grade })
-    });
-
-    console.log('Resposta recebida:', response.status);
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Erro na resposta:', errorData);
-      console.error('Status:', response.status);
-      throw new Error(errorData.error || 'Erro ao atualizar nota da atividade');
-    }
-
-    const result = await response.json();
-    console.log('Nota atualizada com sucesso:', result);
-    return result;
+    const response = await api.put(`/activities/activity-grades/${gradeId}`, { grade }, { withCredentials: true });
+    console.log('Nota atualizada com sucesso:', response.data);
+    return response.data;
   } catch (error) {
     console.error('Error updating activity grade:', error);
     throw new Error('Não foi possível atualizar a nota da atividade.');
@@ -175,19 +109,8 @@ export async function updateActivityGrade(gradeId: number, grade: number) {
 
 export async function deleteActivityGrade(gradeId: number) {
   try {
-    const response = await fetch(`${API_URL}/activities/activity-grades/${gradeId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao excluir nota da atividade');
-    }
-
-    return await response.json();
+    const response = await api.delete(`/activities/activity-grades/${gradeId}`, { withCredentials: true });
+    return response.data;
   } catch (error) {
     console.error('Error deleting activity grade:', error);
     throw new Error('Não foi possível excluir a nota da atividade.');
@@ -196,19 +119,8 @@ export async function deleteActivityGrade(gradeId: number) {
 
 export async function deleteActivity(activityId: number) {
   try {
-    const response = await fetch(`${API_URL}/activities/${activityId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao excluir atividade');
-    }
-
-    return await response.json();
+    const response = await api.delete(`/activities/${activityId}`, { withCredentials: true });
+    return response.data;
   } catch (error) {
     console.error('Error deleting activity:', error);
     throw new Error('Não foi possível excluir atividade.');
@@ -217,19 +129,8 @@ export async function deleteActivity(activityId: number) {
 
 export async function getStudentActivityGrades(): Promise<ActivityGrade[]> {
   try {
-    const response = await fetch(`${API_URL}/activities/student/grades`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar notas das atividades do aluno');
-    }
-
-    return await response.json();
+    const response = await api.get('/activities/student/grades', { withCredentials: true });
+    return response.data;
   } catch (error) {
     console.error('Error fetching student activity grades:', error);
     throw new Error('Não foi possível buscar as notas das atividades.');

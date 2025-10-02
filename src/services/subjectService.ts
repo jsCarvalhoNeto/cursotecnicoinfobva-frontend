@@ -1,4 +1,4 @@
-import { API_URL } from './api';
+import api from './api';
 import { Subject } from '@/types/subject';
 
 export interface CreateSubjectData {
@@ -26,94 +26,70 @@ export interface UpdateSubjectData {
 export const subjectService = {
   // Criar nova disciplina
   create: async (subjectData: CreateSubjectData): Promise<Subject> => {
-    const response = await fetch(`${API_URL}/subjects`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(subjectData),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Erro ao criar disciplina');
+    try {
+      const response = await api.post('/subjects', subjectData);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Erro ao criar disciplina');
     }
-
-    return response.json();
   },
 
   // Buscar todas as disciplinas
- getAll: async (): Promise<Subject[]> => {
-    const response = await fetch(`${API_URL}/subjects`);
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar disciplinas');
+  getAll: async (): Promise<Subject[]> => {
+    try {
+      const response = await api.get('/subjects');
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Erro ao buscar disciplinas');
     }
-
-    return response.json();
   },
 
   // Buscar disciplina por ID
   getById: async (id: string): Promise<Subject> => {
-    const response = await fetch(`${API_URL}/subjects/${id}`);
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar disciplina');
+    try {
+      const response = await api.get(`/subjects/${id}`);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Erro ao buscar disciplina');
     }
-
-    return response.json();
   },
 
   // Atualizar disciplina
   update: async (id: string, subjectData: UpdateSubjectData): Promise<Subject> => {
-    const response = await fetch(`${API_URL}/subjects/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(subjectData),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Erro ao atualizar disciplina');
+    try {
+      const response = await api.put(`/subjects/${id}`, subjectData);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Erro ao atualizar disciplina');
     }
-
-    return response.json();
   },
 
   // Deletar disciplina
   delete: async (id: string): Promise<void> => {
-    const response = await fetch(`${API_URL}/subjects/${id}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Erro ao deletar disciplina');
+    try {
+      await api.delete(`/subjects/${id}`);
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Erro ao deletar disciplina');
     }
- },
+  },
 
   // Buscar disciplinas por professor
   getByTeacher: async (teacherId: string): Promise<Subject[]> => {
-    const response = await fetch(`${API_URL}/subjects?teacher_id=${teacherId}`);
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar disciplinas do professor');
+    try {
+      const response = await api.get(`/subjects?teacher_id=${teacherId}`);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Erro ao buscar disciplinas do professor');
     }
-
-    return response.json();
   },
 
   // Buscar alunos por série
   getStudentsByGrade: async (grade: '1º Ano' | '2º Ano' | '3º Ano'): Promise<any[]> => {
-    const response = await fetch(`${API_URL}/students/grade/${grade}`);
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Erro ao buscar alunos por série');
+    try {
+      const response = await api.get(`/students/grade/${grade}`);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Erro ao buscar alunos por série');
     }
-
-    return response.json();
   }
 };
