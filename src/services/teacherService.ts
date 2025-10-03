@@ -18,8 +18,7 @@ interface Absence {
 
 export const getSubjectsByTeacher = async (teacherId: number): Promise<Subject[]> => {
   try {
-    const API_URL = `http://localhost:4002/api/subjects?teacher_id=${teacherId}`;
-    const response = await fetch(API_URL);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects?teacher_id=${teacherId}`);
     if (!response.ok) {
       throw new Error('Falha ao buscar disciplinas do professor');
     }
@@ -47,10 +46,8 @@ export const getAbsencesBySubject = async (subjectId: number): Promise<Absence[]
 };
 
 export const getAllTeachers = async () => {
-  const API_URL = 'http://localhost:4002/api/teachers';
-  
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers`);
     if (!response.ok) {
       throw new Error('Falha ao buscar professores da API');
     }
