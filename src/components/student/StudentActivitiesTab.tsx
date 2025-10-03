@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -89,7 +90,7 @@ export default function StudentActivitiesTab() {
     setLoading(true);
     try {
       // Buscar atividades diretamente para o aluno (baseado em suas matrículas)
-      const activityResponse = await fetch(`${import.meta.env.VITE_API_URL}/activities/student`, {
+      const activityResponse = await fetch(`${API_URL}/activities/student`, {
         credentials: 'include'
       });
       
@@ -181,7 +182,7 @@ export default function StudentActivitiesTab() {
       formData.append('team_members', submissionData.team_members);
       formData.append('file', submissionData.file);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/student-activities`, {
+      const response = await fetch(`${API_URL}/activities/student-activities`, {
         method: 'POST',
         credentials: 'include',
         body: formData
@@ -226,7 +227,7 @@ export default function StudentActivitiesTab() {
   };
 
   const handleDownloadFile = (filePath: string, fileName: string) => {
-    const baseUrl = import.meta.env.VITE_API_URL.replace('/api', '');
+    const baseUrl = API_URL.replace('/api', '');
     const fullUrl = `${baseUrl}${filePath}`;
     const link = document.createElement('a');
     link.href = fullUrl;

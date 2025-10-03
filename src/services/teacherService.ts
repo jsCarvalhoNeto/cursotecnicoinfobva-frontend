@@ -1,3 +1,5 @@
+import api from './api';
+
 interface Subject {
   id: number;
   name: string;
@@ -18,11 +20,8 @@ interface Absence {
 
 export const getSubjectsByTeacher = async (teacherId: number): Promise<Subject[]> => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects?teacher_id=${teacherId}`);
-    if (!response.ok) {
-      throw new Error('Falha ao buscar disciplinas do professor');
-    }
-    const subjects = await response.json();
+    const response = await api.get(`/subjects?teacher_id=${teacherId}`);
+    const subjects = response.data;
     return subjects.map((subject: { id: number; name: string }) => ({
       id: subject.id,
       name: subject.name
@@ -47,11 +46,8 @@ export const getAbsencesBySubject = async (subjectId: number): Promise<Absence[]
 
 export const getAllTeachers = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers`);
-    if (!response.ok) {
-      throw new Error('Falha ao buscar professores da API');
-    }
-    return await response.json();
+    const response = await api.get('/teachers');
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar professores:', error);
     throw error;

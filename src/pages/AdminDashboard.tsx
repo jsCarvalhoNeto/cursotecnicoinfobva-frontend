@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
@@ -82,10 +83,10 @@ export default function AdminDashboard() {
 
   const fetchTeachers = async () => {
     setLoadingTeachers(true);
-      const API_URL = `${import.meta.env.VITE_API_URL}/teachers`; // URL absoluta para o backend
+      const API_URL_ENDPOINT = `${API_URL}/teachers`; // URL absoluta para o backend
 
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL_ENDPOINT);
       if (!response.ok) {
         throw new Error('Falha ao buscar professores da API');
       }
@@ -141,10 +142,10 @@ export default function AdminDashboard() {
   };
 
   const deleteTeacher = async (teacherId: string) => {
-    const API_URL = `${import.meta.env.VITE_API_URL}/teachers/${teacherId}`;
+    const API_URL_ENDPOINT = `${API_URL}/teachers/${teacherId}`;
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(API_URL_ENDPOINT, {
         method: 'DELETE',
       });
 
@@ -170,8 +171,8 @@ export default function AdminDashboard() {
   const deleteUser = async (userId: string) => {
     try {
       // Remove o estudante via API real
-      const API_URL = `${import.meta.env.VITE_API_URL}/students/${userId}`;
-      const response = await fetch(API_URL, {
+      const API_URL_ENDPOINT = `${API_URL}/students/${userId}`;
+      const response = await fetch(API_URL_ENDPOINT, {
         method: 'DELETE',
       });
 
@@ -279,7 +280,7 @@ export default function AdminDashboard() {
       console.log(`Promovendo usuário a admin: ${userId}`);
       
       // Chama a API real para atualizar o papel do usuário
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}/role`, {
+      const response = await fetch(`${API_URL}/users/${userId}/role`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

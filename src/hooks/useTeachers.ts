@@ -1,3 +1,4 @@
+import { API_URL } from '@/services/api';
 import { useState, useEffect } from 'react';
 
 interface Teacher {
@@ -15,7 +16,7 @@ export function useTeachers() {
     const fetchTeachers = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers`);
+        const response = await fetch(`${API_URL}/teachers`);
         if (!response.ok) {
           throw new Error('Erro ao buscar professores');
         }

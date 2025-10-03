@@ -1,3 +1,5 @@
+import api from './api';
+
 /**
  * Serviços para o Painel do Professor
  * Integração com a API real
@@ -76,19 +78,8 @@ export interface UserProfile {
  */
 export async function getTeacherSubjects(teacherId: string): Promise<Subject[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}/subjects`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar disciplinas do professor');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/teachers/${teacherId}/subjects`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar disciplinas do professor:', error);
     throw error;
@@ -100,19 +91,8 @@ export async function getTeacherSubjects(teacherId: string): Promise<Subject[]> 
  */
 export async function getTeacherActivities(teacherId: string): Promise<Activity[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/teacher/${teacherId}`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar atividades do professor');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/activities/teacher/${teacherId}`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar atividades do professor:', error);
     throw error;
@@ -124,19 +104,8 @@ export async function getTeacherActivities(teacherId: string): Promise<Activity[
  */
 export async function getTeacherActivityGrades(teacherId: string): Promise<ActivityGrade[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}/activity-grades`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar notas de atividades do professor');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/teachers/${teacherId}/activity-grades`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar notas de atividades do professor:', error);
     throw error;
@@ -148,19 +117,8 @@ export async function getTeacherActivityGrades(teacherId: string): Promise<Activ
  */
 export async function getStudentsBySubject(subjectId: number): Promise<any[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects/${subjectId}/students`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar alunos por disciplina');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/subjects/${subjectId}/students`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar alunos por disciplina:', error);
     throw error;
@@ -172,19 +130,8 @@ export async function getStudentsBySubject(subjectId: number): Promise<any[]> {
  */
 export async function getTeacherStudents(teacherId: string): Promise<Student[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}/students`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar alunos do professor');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/teachers/${teacherId}/students`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar alunos do professor:', error);
     throw error;
@@ -196,19 +143,8 @@ export async function getTeacherStudents(teacherId: string): Promise<Student[]> 
  */
 export async function getStudentsByGrade(grade: '1º Ano' | '2º Ano' | '3º Ano'): Promise<Student[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/grade/${grade}`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar alunos por série');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/students/grade/${grade}`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar alunos por série:', error);
     throw error;
@@ -220,19 +156,8 @@ export async function getStudentsByGrade(grade: '1º Ano' | '2º Ano' | '3º Ano
  */
 export async function getPendingActivities(teacherId: string): Promise<Activity[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}/activities/pending`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar atividades pendentes');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/teachers/${teacherId}/activities/pending`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar atividades pendentes:', error);
     throw error;
@@ -244,19 +169,8 @@ export async function getPendingActivities(teacherId: string): Promise<Activity[
  */
 export async function getTeacherCalendarEvents(teacherId: string): Promise<CalendarEvent[]> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}/calendar`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar eventos do calendário');
-    }
-    
-    return await response.json();
+    const response = await api.get(`/teachers/${teacherId}/calendar`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar eventos do calendário:', error);
     throw error;
@@ -268,16 +182,8 @@ export async function getTeacherCalendarEvents(teacherId: string): Promise<Calen
  */
 export async function updateTeacherProfile(teacherId: string, data: Partial<UserProfile>): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    });
-
-    return response.ok;
+    await api.put(`/teachers/${teacherId}`, data);
+    return true;
   } catch (error) {
     console.error('Erro ao atualizar perfil do professor:', error);
     throw error;
@@ -289,16 +195,8 @@ export async function updateTeacherProfile(teacherId: string, data: Partial<User
  */
 export async function changeTeacherPassword(teacherId: string, newPassword: string): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${teacherId}/password`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ newPassword })
-    });
-
-    return response.ok;
+    await api.put(`/teachers/${teacherId}/password`, { newPassword });
+    return true;
   } catch (error) {
     console.error('Erro ao alterar senha do professor:', error);
     throw error;
@@ -310,20 +208,8 @@ export async function changeTeacherPassword(teacherId: string, newPassword: stri
  */
 export async function createSubject(teacherId: string, data: Partial<Subject>): Promise<Subject> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ ...data, teacher_id: teacherId })
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao criar disciplina');
-    }
-    
-    return await response.json();
+    const response = await api.post('/subjects', { ...data, teacher_id: teacherId });
+    return response.data;
   } catch (error) {
     console.error('Erro ao criar disciplina:', error);
     throw error;
@@ -335,20 +221,8 @@ export async function createSubject(teacherId: string, data: Partial<Subject>): 
  */
 export async function updateSubject(teacherId: string, subjectId: number, data: Partial<Subject>): Promise<Subject> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects/${subjectId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao atualizar disciplina');
-    }
-    
-    return await response.json();
+    const response = await api.put(`/subjects/${subjectId}`, data);
+    return response.data;
   } catch (error) {
     console.error('Erro ao atualizar disciplina:', error);
     throw error;
@@ -360,12 +234,8 @@ export async function updateSubject(teacherId: string, subjectId: number, data: 
  */
 export async function deleteSubject(teacherId: string, subjectId: number): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects/${subjectId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    });
-
-    return response.ok;
+    await api.delete(`/subjects/${subjectId}`);
+    return true;
   } catch (error) {
     console.error('Erro ao remover disciplina:', error);
     throw error;

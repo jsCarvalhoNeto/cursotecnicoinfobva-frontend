@@ -1,3 +1,5 @@
+import api from './api';
+
 /**
  * Serviço para gerenciamento de estudantes (usando API real)
  */
@@ -36,27 +38,13 @@ export async function createStudent(data: StudentFormData): Promise<CreateStuden
 
     // Criar estudante via API (removendo studentRegistration do payload pois será gerado automaticamente)
     const { studentRegistration, ...studentDataWithoutRegistration } = sanitizedData;
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...studentDataWithoutRegistration,
-        password: temporaryPassword,
-        grade: sanitizedData.grade
-      })
+    const response = await api.post('/students', {
+      ...studentDataWithoutRegistration,
+      password: temporaryPassword,
+      grade: sanitizedData.grade
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      return {
-        success: false,
-        error: errorData.error || 'Erro ao criar estudante'
-      };
-    }
-
-    const result = await response.json();
+    const result = response.data;
     
     console.log("Estudante criado com sucesso:", result);
 
@@ -68,11 +56,11 @@ export async function createStudent(data: StudentFormData): Promise<CreateStuden
         temporaryPassword,
       },
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erro ao criar estudante (API real):', error);
     return {
       success: false,
-      error: 'Erro de conexão com o servidor. Tente novamente.',
+      error: error.response?.data?.error || 'Erro de conexão com o servidor. Tente novamente.',
     };
   }
 }
@@ -82,15 +70,8 @@ export async function createStudent(data: StudentFormData): Promise<CreateStuden
  */
 export async function updateStudentPassword(userId: string, newPassword: string): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${userId}/password`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password: newPassword })
-    });
-
-    return response.ok;
+    await api.put(`/students/${userId}/password`, { password: newPassword });
+    return true;
   } catch (error) {
     console.error('Erro ao atualizar senha do estudante:', error);
     return false;
@@ -102,10 +83,8 @@ export async function updateStudentPassword(userId: string, newPassword: string)
  */
 export async function hasTemporaryPassword(userId: string): Promise<boolean> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${userId}`);
-    if (!response.ok) return false;
-    
-    const student = await response.json();
+    const response = await api.get(`/students/${userId}`);
+    const student = response.data;
     // Senhas temporárias geradas têm 12 caracteres
     return student.password && student.password.length === 12;
   } catch (error) {
@@ -121,11 +100,8 @@ export async function getStudentById(userId: string) {
   console.log(`Buscando estudante por ID (API real): ${userId}`);
   
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students/${userId}`);
-    if (!response.ok) {
-      throw new Error('Student not found');
-    }
-    return await response.json();
+    const response = await api.get(`/students/${userId}`);
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar estudante:', error);
     throw error;
@@ -139,11 +115,8 @@ export async function getAllStudents() {
   console.log("Buscando todos os estudantes (API real)...");
   
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/students`);
-    if (!response.ok) {
-      throw new Error('Erro ao buscar estudantes');
-    }
-    return await response.json();
+    const response = await api.get('/students');
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar estudantes:', error);
     throw error;
