@@ -50,9 +50,7 @@ export interface UserProfile {
  */
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   try {
-    const response = await api.post('/auth/login', credentials, {
-      withCredentials: true,
-    });
+    const response = await api.post('/auth/login', credentials);
     return {
       success: true,
       user: response.data.user,
@@ -73,9 +71,7 @@ export async function login(credentials: LoginCredentials): Promise<LoginRespons
  */
 export async function signUp(credentials: SignUpCredentials): Promise<SignUpResponse> {
   try {
-    const response = await api.post('/auth/register', credentials, {
-      withCredentials: true,
-    });
+    const response = await api.post('/auth/register', credentials);
     return {
       success: true,
       user: response.data.user,
@@ -94,9 +90,7 @@ export async function signUp(credentials: SignUpCredentials): Promise<SignUpResp
  */
 export async function logout(): Promise<boolean> {
   try {
-    await api.post('/auth/logout', null, {
-      withCredentials: true,
-    });
+    await api.post('/auth/logout');
     return true;
   } catch (error) {
     console.error('Erro ao fazer logout:', error);
@@ -109,9 +103,7 @@ export async function logout(): Promise<boolean> {
  */
 export async function getCurrentUser(): Promise<UserProfile | null> {
   try {
-    const response = await api.get('/auth/me', {
-      withCredentials: true,
-    });
+    const response = await api.get('/auth/me');
     return response.data;
   } catch (error) {
     console.error('Erro ao obter usuário atual:', error);

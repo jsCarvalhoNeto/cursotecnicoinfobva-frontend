@@ -45,7 +45,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setProfile(null);
       setUserRole(null);
       setHasTempPassword(false);
-      localStorage.removeItem('session');
       return;
     }
 
@@ -74,27 +73,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(userData);
     setProfile(profileData);
     setUserRole(authUser.role as UserRole);
-    localStorage.setItem('session', JSON.stringify({ user: userData }));
  }, []);
 
   useEffect(() => {
     const checkSession = async () => {
       setLoading(true);
       try {
-        const sessionData = localStorage.getItem('session');
-        if (sessionData) {
-          const parsedSession = JSON.parse(sessionData);
-          const loggedInUserEmail = parsedSession.user?.email;
-          
-          // Tentar obter informações do usuário atual via API
-          const currentUser = await getCurrentUser();
-          if (currentUser) {
-            setUserData(currentUser);
-          }
+        // Tentar obter informações do usuário atual via API usando cookies
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          setUserData(currentUser);
         }
       } catch (error) {
-        console.error("Failed to parse session:", error);
-        localStorage.removeItem('session');
+        console.error("Erro ao verificar sessão:", error);
       } finally {
         setLoading(false);
       }
@@ -157,7 +148,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setUserData(null);
     setHasTempPassword(false);
-    localStorage.removeItem('session');
   };
 
   const checkTemporaryPassword = async (userId: string): Promise<boolean> => {
