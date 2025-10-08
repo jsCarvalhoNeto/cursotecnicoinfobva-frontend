@@ -23,7 +23,7 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg">
             <img 
               src={logoCurso} 
               alt="Logo do Curso" 
@@ -33,7 +33,7 @@ const Header = () => {
               <h1 className="text-xl font-bold text-white drop-shadow-sm">Portal Informática</h1>
               <p className="text-xs text-white/90 drop-shadow-sm">Curso Técnico</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
