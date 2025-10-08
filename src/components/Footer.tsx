@@ -123,19 +123,18 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div className="text-muted-foreground">
-                  <p>Rua da Tecnologia, 123</p>
-                  <p>Centro - São Paulo/SP</p>
+                  <p>R. Leonor Rufino, 943 - Sol Nascente, Brejo Santo - CE, 63260-000</p>
                 </div>
               </div>
               
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-muted-foreground">(11) 3456-7890</span>
+                <span className="text-muted-foreground">(88) 998499645</span>
               </div>
               
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-muted-foreground">contato@techportal.edu.br</span>
+                <span className="text-muted-foreground">professorsantosbva@gmail.com</span>
               </div>
             </div>
 
